@@ -5,7 +5,6 @@ import Button from './Button';
 import playIcon from './images/play_icon.png';
 import pauseIcon from './images/pause_icon.png';
 import resetIcon from './images/reset_icon.png';
-import { endianness } from 'os';
 
 const Timer = () => {
 
@@ -17,59 +16,70 @@ const Timer = () => {
     timerMinutes: 0,
     timerSeconds: 0
   });
-  const [active, setActive] = useState(false);
+  // const [globalActive, setGlobalActive] = useState(false as boolean);
+  const [globalActive, setGlobalActive] = useState(false);
 
   const end = () => {
     console.log("KONIEC");
   }
   const fillZeros = (seconds: any, minutes: any, hours: any) => {
-    if (hours < 10) hours = `0${hours}`
-    if (minutes < 10) minutes = `0${minutes}`
-    if (seconds < 10) seconds = `0${seconds}`
+    if (hours < 10 && hours > 0) hours = `0${hours}`
+    if (minutes < 10 && hours > 0) minutes = `0${minutes}`
+    if (seconds < 10 && hours > 0) seconds = `0${seconds}`
     return { hours: hours, minutes: minutes, seconds: seconds };
   }
 
   const Tick = (hours: number, minutes: number, seconds: number) => {
-    
-   
-    if (seconds == 0) {
-      if (minutes > 0) {
-        seconds = 59;
-        minutes -= 1;
-      }
-      else {
-        if (hours > 0) {
-          hours -= 1;
-          minutes = 59;
+    // console.log(globalActive)
+    if (globalActive) {
+
+      if (seconds == 0) {
+        if (minutes > 0) {
           seconds = 59;
+          minutes -= 1;
         }
         else {
-          end();
-          return;
+          if (hours > 0) {
+            hours -= 1;
+            minutes = 59;
+            seconds = 59;
+          }
+          else {
+            end();
+            return;
+          }
         }
       }
+
+      seconds -= 1;
+      console.log("TU NIE MA NIC")
+      const filled = fillZeros(seconds, minutes, hours);
+      setState(prevState =>
+        ({ ...prevState, timerHours: filled.hours, timerMinutes: filled.minutes, timerSeconds: filled.seconds })
+      )
     }
-
-    seconds -= 1;
-
-    const filled = fillZeros(seconds, minutes, hours);
-    setState(prevState =>
-      ({ ...prevState, timerHours: filled.hours, timerMinutes: filled.minutes, timerSeconds: filled.seconds })
-    )
-    
+    console.log("Wywolanie pownowne")
+    // console.log(globalActive)
     setTimeout(Tick, 1000, hours, minutes, seconds);
 
   }
 
   const handleStartButton = () => {
-    // setTimeout(Tick, 1000, true);
-    setActive(true);
-    Tick(state.timerHours, state.timerMinutes, state.timerSeconds);
+    console.log(globalActive)
+    if (!globalActive) {
+      console.log("WSZEDLEM W HANDLE START BUTTON")
+      // setInterval(Tick, 1000, state.timerHours, state.timerMinutes, state.timerSeconds);
+      setGlobalActive(true);
+      // setState(prevState => {
+      //   return { ...prevState, hehe: true }
+      // })
+      Tick(state.timerHours, state.timerMinutes, state.timerSeconds);
+    }
   }
 
   const handlePauseButton = () => {
     console.log("Kliknieto PAUSE");
-    setActive(false);
+    // setGlobalActive(false);
     Tick(state.timerHours, state.timerMinutes, state.timerSeconds);
 
   }
@@ -114,13 +124,7 @@ const Timer = () => {
           <input type="text" onChange={handleSeconds}></input>
         </div>
 
-
-
-
         <Button onlyText={true} text="Ustaw" onClick={setTimer} />
-
-
-
 
         <div className="buttons-wrapper">
           <Button img={playIcon} text="start" onClick={handleStartButton} />
