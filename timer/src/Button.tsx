@@ -8,12 +8,15 @@ const Button = (props: any) => {
 
   
   return (
-    // <div className='button'>to jest button</div>
     <>
-      <div className='btn-container' onClick={props.onClick}>
+      {props.onlyText ? 
+      <div  onClick={props.onClick} className="btn-border">{props.text}</div> : 
+      (<div className='btn-container' onClick={props.onClick}>
         <img src={props.img} />
         <div className="btn-label">{props.text}</div>
-      </div>
+      </div>)}
+      
+      
 
     </>
   )
