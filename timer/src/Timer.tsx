@@ -5,6 +5,7 @@ import Button from './Button';
 import playIcon from './images/play_icon.png';
 import pauseIcon from './images/pause_icon.png';
 import resetIcon from './images/reset_icon.png';
+import { endianness } from 'os';
 
 const Timer = () => {
 
@@ -16,34 +17,67 @@ const Timer = () => {
     timerMinutes: 0,
     timerSeconds: 0
   });
+  const [active, setActive] = useState(false);
 
-  const Tick = () =>{
-    // if(start){
-      state.timerSeconds -= 1;
-      console.log(state.timerSeconds);
-      setTimeout(Tick, 1000, true);
-    // }
+  const end = () => {
+    console.log("KONIEC");
+  }
+  const fillZeros = (seconds: any, minutes: any, hours: any) => {
+    if (hours < 10) hours = `0${hours}`
+    if (minutes < 10) minutes = `0${minutes}`
+    if (seconds < 10) seconds = `0${seconds}`
+    return { hours: hours, minutes: minutes, seconds: seconds };
   }
 
-
-
-  const handleStartButton = () =>{
-    setState(prevState => {
-      return { ...prevState, timerHours: state.hours, timerMinutes : state.minutes, timerSeconds: state.seconds }
-    })
-    setTimeout(Tick, 500, true);
-    // Tick(true);
-  }
-
-  const handlePauseButton = () =>{
-    console.log("Kliknieto PAUSE")
+  const Tick = (hours: number, minutes: number, seconds: number) => {
     
+   
+    if (seconds == 0) {
+      if (minutes > 0) {
+        seconds = 59;
+        minutes -= 1;
+      }
+      else {
+        if (hours > 0) {
+          hours -= 1;
+          minutes = 59;
+          seconds = 59;
+        }
+        else {
+          end();
+          return;
+        }
+      }
+    }
+
+    seconds -= 1;
+
+    const filled = fillZeros(seconds, minutes, hours);
+    setState(prevState =>
+      ({ ...prevState, timerHours: filled.hours, timerMinutes: filled.minutes, timerSeconds: filled.seconds })
+    )
+    
+    setTimeout(Tick, 1000, hours, minutes, seconds);
+
   }
 
-  const handleRestartButton = () =>{
+  const handleStartButton = () => {
+    // setTimeout(Tick, 1000, true);
+    setActive(true);
+    Tick(state.timerHours, state.timerMinutes, state.timerSeconds);
+  }
+
+  const handlePauseButton = () => {
+    console.log("Kliknieto PAUSE");
+    setActive(false);
+    Tick(state.timerHours, state.timerMinutes, state.timerSeconds);
+
+  }
+
+  const handleRestartButton = () => {
     console.log("Kliknieto RESTART")
   }
-  
+
   const handleHours = (event: any) => {
     setState(prevState => {
       return { ...prevState, hours: event.target.value }
@@ -62,6 +96,12 @@ const Timer = () => {
     })
   }
 
+  const setTimer = () => {
+    setState(prevState => {
+      return { ...prevState, timerHours: state.hours, timerMinutes: state.minutes, timerSeconds: state.seconds }
+    })
+  }
+
   return (
     <div className='container' id="container">
       <div className="header">Tytul</div>
@@ -73,8 +113,15 @@ const Timer = () => {
           <input type="text" onChange={handleMinutes}></input>:
           <input type="text" onChange={handleSeconds}></input>
         </div>
-        
-  
+
+
+
+
+        <Button onlyText={true} text="Ustaw" onClick={setTimer} />
+
+
+
+
         <div className="buttons-wrapper">
           <Button img={playIcon} text="start" onClick={handleStartButton} />
           <Button img={pauseIcon} text="pauza" onClick={handlePauseButton} />
