@@ -21,9 +21,9 @@ class Timer extends React.Component<any, any> {
       timerMinutes: 0,
       timerSeconds: 0,
       // wyswietlanie
-      timerHoursDisplay: 0,
-      timerMinutesDisplay: 0,
-      timerSecondsDisplay: 0,
+      timerHoursDisplay: "00",
+      timerMinutesDisplay: "00",
+      timerSecondsDisplay: "00",
       active: false,
       onceStarted: false,
 
@@ -48,17 +48,21 @@ class Timer extends React.Component<any, any> {
 
   Tick = (hours: number, minutes: number, seconds: number) => {
     if (this.state.active) {
-      seconds -= 1;
+      // seconds = this.state.setSeconds;
+      // minutes = this.state.setMinutes;
+      // hours = this.state.setHours;
+      
+      
       if (seconds == 0) {
         if (minutes > 0) {
-          seconds = 59;
+          seconds = 60;
           minutes -= 1;
         }
         else {
           if (hours > 0) {
             hours -= 1;
             minutes = 59;
-            seconds = 59;
+            seconds = 60;
           }
           else {
             this.end();
@@ -66,6 +70,7 @@ class Timer extends React.Component<any, any> {
           }
         }
       }
+      seconds -= 1;
 
       const filled = this.fillZeros(seconds, minutes, hours);
 
@@ -86,7 +91,7 @@ class Timer extends React.Component<any, any> {
 
     }
 
-    setTimeout(this.Tick, 1000, hours, minutes, seconds);
+    setTimeout(this.Tick, 1000, this.state.timerHours, this.state.timerMinutes, this.state.timerSeconds);
 
   }
 
