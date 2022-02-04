@@ -5,25 +5,38 @@ body{
     align-items: center;
 }
 .container{
-    /* border: 1px solid black; */
     width: 400px;
 }
 .header{
-    /* border: 1px solid black; */
     width: 70%;
     margin: 0 auto 0 auto;
     border-radius: 30px;
     text-align: center;
-    /* height: 30px; */
-    font-size: 1.8em;
     background: #4a4a4a;
     color: white;
     box-shadow: 0 0 20px 10px black;
     margin-bottom: 20px;
 }
 
+#title-input{
+    background: transparent;
+    border: 0;
+    font-size: 2em;
+    text-align: center;
+    width: 95%;
+    color: white;
+}
+#title-input:hover{
+    cursor: pointer;
+}
+#title-input:focus{
+    border: 0;
+    outline: none;
+}
+
+
+
 .main{
-    /* border: 1px solid black; */
     height: 400px;
     border-radius: 20px;
     background: #C4C4C4;
@@ -37,26 +50,22 @@ body{
     display: flex;
     flex-direction: row;
     justify-content: space-evenly;
-    /* border: 1px solid black; */
     margin: 30px auto 0 auto;
     width: 70%;
     font-size: 1.5em;
 }
 
 .input-counter input{
-    /* height: 50px; */
     width: 10%;
 }
 
 .buttons-wrapper{
-    /* border: 1px solid black; */
     height: 30%;
     width: 70%;
     margin-top: 10%;
 }
 
 .timer-counter{
-    /* border: 1px solid black; */
     font-size: 4em;
     color: #656565;
     margin-top: 10%;
