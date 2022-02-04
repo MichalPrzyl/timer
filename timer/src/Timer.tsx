@@ -69,8 +69,8 @@ const Timer = () => {
 
   const handlePauseButton = () => {
     console.log("Kliknieto PAUSE");
-    setActive(false);
-    Tick(state.timerHours, state.timerMinutes, state.timerSeconds);
+    // setActive(false);
+    // Tick(state.timerHours, state.timerMinutes, state.timerSeconds);
 
   }
 
