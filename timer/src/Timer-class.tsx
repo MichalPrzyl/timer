@@ -147,7 +147,9 @@ class Timer extends React.Component<any, any> {
   render() {
     return (
       <div className='container' id="container">
-        <div className="header">Tytul</div>
+        <div className="header">
+          <input type="text" id="title-input"></input>
+        </div>
         {/* <div className="main"> */}
         <div className={`main ${this.state.finish ? 'finished-task' : null}`}>
 
