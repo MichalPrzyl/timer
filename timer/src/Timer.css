@@ -26,15 +26,15 @@ body{
     width: 95%;
     color: white;
 }
+
 #title-input:hover{
     cursor: pointer;
 }
+
 #title-input:focus{
     border: 0;
     outline: none;
 }
-
-
 
 .main{
     height: 400px;
@@ -44,19 +44,36 @@ body{
     flex-direction: column;
     align-items: center;
     box-shadow: 0 0 20px 10px black;
+    transition: all 1s;
+}
+
+.inputs-wrapper{
+    display: flex;
+    flex-direction: row;
+    width: 350px;
 }
 
 .input-counter{
     display: flex;
     flex-direction: row;
     justify-content: space-evenly;
-    margin: 30px auto 0 auto;
-    width: 70%;
+    margin-top: 20px;
+    width: 90%;
     font-size: 1.5em;
 }
 
+.input-counter-element-first{
+
+    text-align: center;
+}
+
+.input-counter-element{
+    width: 30%;
+}
+
 .input-counter input{
-    width: 10%;
+    width: 100%;
+    text-align: center;
 }
 
 .buttons-wrapper{
@@ -73,4 +90,18 @@ body{
 
 .finished-task{
     background: #98ff8c;
+}
+
+.rst-btn{
+    font-size: 0.4em;
+    border: 1px solid black;
+    width: fit-content;
+    padding: 10px;
+    border-radius: 10px;
+    transition: all 0.3s;
+}
+
+.rst-btn:hover{
+    background: #AAAAAA;
+    cursor: pointer;
 }
