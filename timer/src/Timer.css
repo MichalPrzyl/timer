@@ -61,3 +61,7 @@ body{
     color: #656565;
     margin-top: 10%;
 }
+
+.finished-task{
+    background: #98ff8c;
+}

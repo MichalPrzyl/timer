@@ -5,9 +5,9 @@ import Button from './Button';
 import playIcon from './images/play_icon.png';
 import pauseIcon from './images/pause_icon.png';
 import resetIcon from './images/reset_icon.png';
-import { endianness } from 'os';
 
 class Timer extends React.Component<any, any> {
+  baseState :any;
   constructor(props: any) {
     super(props);
     this.state = {
@@ -21,26 +21,24 @@ class Timer extends React.Component<any, any> {
       timerMinutes: 0,
       timerSeconds: 0,
       // wyswietlanie
-      timerHoursDisplay: 0,
-      timerMinutesDisplay: 0,
-      timerSecondsDisplay: 0,
+      timerHoursDisplay: "00",
+      timerMinutesDisplay: "00",
+      timerSecondsDisplay: "00",
       active: false,
       onceStarted: false,
-
+      finish: false
     }
+    this.baseState = this.state;
   }
 
 
   end = () => {
-    console.log("KONIEC");
+    this.setState({finish: true})
   }
 
   fillZeros = (seconds: any, minutes: any, hours: any) => {
 
-    if (hours < 10) {
-      hours = `0${hours}`
-    }
-
+    if (hours < 10) hours = `0${hours}`
     if (minutes < 10) minutes = `0${minutes}`
     if (seconds < 10) seconds = `0${seconds}`
     return { hours: hours, minutes: minutes, seconds: seconds };
@@ -48,17 +46,17 @@ class Timer extends React.Component<any, any> {
 
   Tick = (hours: number, minutes: number, seconds: number) => {
     if (this.state.active) {
-      seconds -= 1;
+      
       if (seconds == 0) {
         if (minutes > 0) {
-          seconds = 59;
+          seconds = 60;
           minutes -= 1;
         }
         else {
           if (hours > 0) {
             hours -= 1;
             minutes = 59;
-            seconds = 59;
+            seconds = 60;
           }
           else {
             this.end();
@@ -66,14 +64,10 @@ class Timer extends React.Component<any, any> {
           }
         }
       }
+      seconds -= 1;
 
       const filled = this.fillZeros(seconds, minutes, hours);
 
-      // this.setState({
-      //   timerHours: filled.hours,
-      //   timerMinutes: filled.minutes, 
-      //   timerSeconds: filled.seconds 
-      // })
       this.setState({
         timerHours: hours,
         timerMinutes: minutes,
@@ -83,11 +77,8 @@ class Timer extends React.Component<any, any> {
         timerMinutesDisplay: filled.minutes,
         timerHoursDisplay: filled.hours,
       })
-
     }
-
-    setTimeout(this.Tick, 1000, hours, minutes, seconds);
-
+    setTimeout(this.Tick, 1000, this.state.timerHours, this.state.timerMinutes, this.state.timerSeconds);
   }
 
   handleStartButton = () => {
@@ -101,23 +92,32 @@ class Timer extends React.Component<any, any> {
   }
 
   handlePauseButton = () => {
-    console.log("Kliknieto PAUSE");
     this.setState({ active: false })
   }
 
   handleRestartButton = () => {
-    console.log("Kliknieto RESTART")
-    this.setTimer();
+
+    this.setState({
+      // realny licznik numbers
+      timerHours: 0,
+      timerMinutes: 0,
+      timerSeconds: 0,
+      // wyswietlanie
+      timerHoursDisplay: "00",
+      timerMinutesDisplay: "00",
+      timerSecondsDisplay: "00",
+      active: false,
+      onceStarted: false,
+      finish: false
+    })
   }
 
   handleHours = (event: any) => {
     this.setState({ setHours: event.target.value })
-    console.log(typeof event.target.value)
   }
 
   handleMinutes = (event: any) => {
     this.setState({ setMinutes: event.target.value })
-    console.log(typeof event.target.value)
   }
 
   handleSeconds = (event: any) => {
@@ -133,6 +133,7 @@ class Timer extends React.Component<any, any> {
     const { seconds, minutes, hours } = trimmed;
     const filled = this.fillZeros(seconds, minutes, hours);
     this.setState({
+      active: false,
       timerHours: hours,
       timerMinutes: minutes,
       timerSeconds: seconds,
@@ -147,7 +148,8 @@ class Timer extends React.Component<any, any> {
     return (
       <div className='container' id="container">
         <div className="header">Tytul</div>
-        <div className="main">
+        {/* <div className="main"> */}
+        <div className={`main ${this.state.finish ? 'finished-task' : null}`}>
 
           <div className='input-counter'>
             <div>ile</div>
@@ -168,7 +170,6 @@ class Timer extends React.Component<any, any> {
           <div className="timer-counter">
             <div>{this.state.timerHoursDisplay}:{this.state.timerMinutesDisplay}:{this.state.timerSecondsDisplay}</div>
           </div>
-
         </div>
       </div>
     )
@@ -177,4 +178,4 @@ class Timer extends React.Component<any, any> {
 }
 
 export default Timer;
-
+// finished-task
