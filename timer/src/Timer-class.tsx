@@ -32,20 +32,18 @@ class Timer extends React.Component<any, any> {
     this.baseState = this.state;
   }
 
-  reaguj = (event: any) => {
-
+  keyPressed = (event: any) => {
     if (event.key == "Enter") {
       event.target.blur();
       this.setTimer();
     }
-
   }
 
   componentDidMount() {
     console.log("witam")
-    document.getElementById('first-input')?.addEventListener("keydown", this.reaguj);
-    document.getElementById('second-input')?.addEventListener("keydown", this.reaguj);
-    document.getElementById('third-input')?.addEventListener("keydown", this.reaguj);
+    document.getElementById('first-input')?.addEventListener("keydown", this.keyPressed);
+    document.getElementById('second-input')?.addEventListener("keydown", this.keyPressed);
+    document.getElementById('third-input')?.addEventListener("keydown", this.keyPressed);
   }
   end = () => {
     this.setState({ finish: true })
