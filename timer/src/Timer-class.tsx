@@ -110,7 +110,8 @@ class Timer extends React.Component<any, any> {
   handlePauseButton = () => {
     this.setState({
       active: false,
-      paused: true })
+      paused: true 
+    })
   }
 
   handleRestartButton = () => {

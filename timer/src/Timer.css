@@ -26,15 +26,15 @@ body{
     width: 95%;
     color: white;
 }
+
 #title-input:hover{
     cursor: pointer;
 }
+
 #title-input:focus{
     border: 0;
     outline: none;
 }
-
-
 
 .main{
     height: 400px;
@@ -56,23 +56,18 @@ body{
 .input-counter{
     display: flex;
     flex-direction: row;
-    /* justify-content: space-evenly; */
     justify-content: space-evenly;
-    /* margin: 30px auto 0 auto; */
     margin-top: 20px;
     width: 90%;
     font-size: 1.5em;
-    /* border: 1px solid black; */
 }
 
 .input-counter-element-first{
-    /* width: fit-content !important; */
-    /* background: red; */
+
     text-align: center;
 }
 
 .input-counter-element{
-    /* border: 1px solid black; */
     width: 30%;
 }
 
@@ -101,7 +96,6 @@ body{
     font-size: 0.4em;
     border: 1px solid black;
     width: fit-content;
-    /* margin: 10px; */
     padding: 10px;
     border-radius: 10px;
     transition: all 0.3s;
