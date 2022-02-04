@@ -11,7 +11,7 @@ const Button = (props: any) => {
     <>
       {props.onlyText ? 
       <div  onClick={props.onClick} className="btn-border">{props.text}</div> : 
-      (<div className='btn-container' onClick={props.onClick}>
+      (<div className={`btn-container ${props.active ? 'active-shadow' : null}`} onClick={props.onClick}>
         <img src={props.img} />
         <div className="btn-label">{props.text}</div>
       </div>)}

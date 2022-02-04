@@ -7,7 +7,7 @@ import pauseIcon from './images/pause_icon.png';
 import resetIcon from './images/reset_icon.png';
 
 class Timer extends React.Component<any, any> {
-  baseState :any;
+  baseState: any;
   constructor(props: any) {
     super(props);
     this.state = {
@@ -25,15 +25,31 @@ class Timer extends React.Component<any, any> {
       timerMinutesDisplay: "00",
       timerSecondsDisplay: "00",
       active: false,
+      paused: false,
       onceStarted: false,
       finish: false
     }
     this.baseState = this.state;
   }
 
+  reaguj = (event: any) =>{
+    
+    if(event.key == "Enter"){
+      event.target.blur();
+      this.setTimer();
+    }
 
+  }
+
+  componentDidMount(){
+    console.log("witam")
+    // window.addEventListener("keydown", this.reaguj)
+    document.getElementById('first-input')?.addEventListener("keydown", this.reaguj);
+    document.getElementById('second-input')?.addEventListener("keydown", this.reaguj);
+    document.getElementById('third-input')?.addEventListener("keydown", this.reaguj);
+  }
   end = () => {
-    this.setState({finish: true})
+    this.setState({ finish: true })
   }
 
   fillZeros = (seconds: any, minutes: any, hours: any) => {
@@ -46,7 +62,7 @@ class Timer extends React.Component<any, any> {
 
   Tick = (hours: number, minutes: number, seconds: number) => {
     if (this.state.active) {
-      
+
       if (seconds == 0) {
         if (minutes > 0) {
           seconds = 60;
@@ -89,10 +105,13 @@ class Timer extends React.Component<any, any> {
         this.Tick(this.state.timerHours, this.state.timerMinutes, this.state.timerSeconds);
       }
     }
+    this.setState({paused : false})
   }
 
   handlePauseButton = () => {
-    this.setState({ active: false })
+    this.setState({
+      active: false,
+      paused: true })
   }
 
   handleRestartButton = () => {
@@ -108,7 +127,8 @@ class Timer extends React.Component<any, any> {
       timerSecondsDisplay: "00",
       active: false,
       onceStarted: false,
-      finish: false
+      finish: false,
+      paused: false
     })
   }
 
@@ -144,28 +164,41 @@ class Timer extends React.Component<any, any> {
     })
   }
 
+  resetInputs = () =>{
+    this.setState({
+      setHours: 0,
+      setMinutes: 0,
+      setSeconds: 0,
+    })
+  }
+
   render() {
     return (
       <div className='container' id="container">
         <div className="header">
-          <input type="text" id="title-input"></input>
+          <input type="text" id="title-input" placeholder='Wpisz tytuł'></input>
         </div>
         {/* <div className="main"> */}
         <div className={`main ${this.state.finish ? 'finished-task' : null}`}>
 
           <div className='input-counter'>
-            <div>ile</div>
-            <input type="text" onChange={this.handleHours}></input>:
-            <input type="text" onChange={this.handleMinutes}></input>:
-            <input type="text" onChange={this.handleSeconds}></input>
+            <div className="input-counter-element input-counter-element-first">Długość</div>
+            <div className="input-counter-element inputs-wrapper">
+              <input id="first-input" type="text" onChange={this.handleHours} value={this.state.setHours}></input>:
+              <input id="second-input" type="text" onChange={this.handleMinutes} value={this.state.setMinutes}></input>:
+              <input id="third-input" type="text" onChange={this.handleSeconds} value={this.state.setSeconds}></input>
+            </div>
+            <div className="input-counter-element">
+              <div className='rst-btn' onClick={this.resetInputs}>Reset</div>
+            </div>
           </div>
 
           <Button onlyText={true} text="Ustaw" onClick={this.setTimer} />
 
 
           <div className="buttons-wrapper">
-            <Button img={playIcon} text="start" onClick={this.handleStartButton} />
-            <Button img={pauseIcon} text="pauza" onClick={this.handlePauseButton} />
+            <Button active={this.state.active} img={playIcon} text="start" onClick={this.handleStartButton} />
+            <Button active={this.state.paused} img={pauseIcon} text="pauza" onClick={this.handlePauseButton} />
             <Button img={resetIcon} text="restart" onClick={this.handleRestartButton} />
           </div>
 
