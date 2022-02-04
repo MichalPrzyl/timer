@@ -32,20 +32,18 @@ class Timer extends React.Component<any, any> {
     this.baseState = this.state;
   }
 
-  reaguj = (event: any) =>{
-    
-    if(event.key == "Enter"){
+  keyPressed = (event: any) => {
+    if (event.key == "Enter") {
       event.target.blur();
       this.setTimer();
     }
-
   }
 
-  componentDidMount(){
+  componentDidMount() {
     console.log("witam")
-    document.getElementById('first-input')?.addEventListener("keydown", this.reaguj);
-    document.getElementById('second-input')?.addEventListener("keydown", this.reaguj);
-    document.getElementById('third-input')?.addEventListener("keydown", this.reaguj);
+    document.getElementById('first-input')?.addEventListener("keydown", this.keyPressed);
+    document.getElementById('second-input')?.addEventListener("keydown", this.keyPressed);
+    document.getElementById('third-input')?.addEventListener("keydown", this.keyPressed);
   }
   end = () => {
     this.setState({ finish: true })
@@ -104,13 +102,13 @@ class Timer extends React.Component<any, any> {
         this.Tick(this.state.timerHours, this.state.timerMinutes, this.state.timerSeconds);
       }
     }
-    this.setState({paused : false})
+    this.setState({ paused: false })
   }
 
   handlePauseButton = () => {
     this.setState({
       active: false,
-      paused: true 
+      paused: true
     })
   }
 
@@ -164,7 +162,7 @@ class Timer extends React.Component<any, any> {
     })
   }
 
-  resetInputs = () =>{
+  resetInputs = () => {
     this.setState({
       setHours: 0,
       setMinutes: 0,
@@ -175,11 +173,12 @@ class Timer extends React.Component<any, any> {
   render() {
     return (
       <div className='container' id="container">
+
         <div className="header">
           <input type="text" id="title-input" placeholder='Wpisz tytuł'></input>
         </div>
-        <div className={`main ${this.state.finish ? 'finished-task' : null}`}>
 
+        <div className={`main ${this.state.finish ? 'finished-task' : null}`}>
           <div className='input-counter'>
             <div className="input-counter-element input-counter-element-first">Długość</div>
             <div className="input-counter-element inputs-wrapper">
