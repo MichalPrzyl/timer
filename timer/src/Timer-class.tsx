@@ -43,7 +43,6 @@ class Timer extends React.Component<any, any> {
 
   componentDidMount(){
     console.log("witam")
-    // window.addEventListener("keydown", this.reaguj)
     document.getElementById('first-input')?.addEventListener("keydown", this.reaguj);
     document.getElementById('second-input')?.addEventListener("keydown", this.reaguj);
     document.getElementById('third-input')?.addEventListener("keydown", this.reaguj);
@@ -178,7 +177,6 @@ class Timer extends React.Component<any, any> {
         <div className="header">
           <input type="text" id="title-input" placeholder='Wpisz tytuł'></input>
         </div>
-        {/* <div className="main"> */}
         <div className={`main ${this.state.finish ? 'finished-task' : null}`}>
 
           <div className='input-counter'>
